@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Movement } from "../types/Movement";
 
 import { MovementInfoAndIcon } from "../types/MovementType";
+import { BalanceSpan } from "./styles/BalanceSpan";
 import { ChartsPanel } from "./ChartsPanel";
 
 const Wrapper = styled.div`
@@ -13,13 +14,6 @@ const Wrapper = styled.div`
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 5%;
-`;
-
-const BalanceSpan = styled.span`
-  font-size: 75px;
-  font-weight: 800;
-  align-self: center;
-  padding: 10px;
 `;
 
 const MovementWrapper = styled.div`

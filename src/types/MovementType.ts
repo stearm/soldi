@@ -1,15 +1,15 @@
 export enum MovementType {
-  FOOD,
-  PUBLIC_TRANSPORT,
-  FUEL,
-  FUN,
-  MUTUO,
-  SPESE_CONDOMINIALI,
-  STIPENDIO,
-  OTHER
+  FOOD = "FOOD",
+  PUBLIC_TRANSPORT = "PUBLIC_TRANSPORT",
+  FUEL = "FUEL",
+  FUN = "FUN",
+  MUTUO = "MUTUO",
+  SPESE_CONDOMINIALI = "SPESE_CONDOMINIALI",
+  STIPENDIO = "STIPENDIO",
+  OTHER = "OTHER"
 }
 
-export const MovementInfoAndIcon = {
+export const MovementInfoAndIcon: { [k in MovementType]: { icon: string; info: string } } = {
   [MovementType.FOOD]: {
     icon: "im-pizza",
     info: "Food"
