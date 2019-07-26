@@ -1,6 +1,10 @@
 import * as React from "react";
+import moment from "moment";
 import styled from "styled-components";
 import { Movement } from "../types/Movement";
+
+import numeral from "numeral";
+import { MovementInfoAndIcon } from "../types/MovementType";
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,11 +18,24 @@ const BalanceSpan = styled.span`
   font-size: 75px;
   font-weight: 800;
   align-self: center;
-  border: 1px solid black;
   padding: 10px;
 `;
 
-const MovementWrapper = styled.div``;
+const MovementWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background: #f7f7f7;
+  padding: 10px;
+
+  &:not(:last-child) {
+    margin-bottom: 4px;
+  }
+
+  & > div > i {
+    margin-right: 10px;
+  }
+`;
 
 interface Props {
   balance: number;
@@ -28,11 +45,32 @@ interface Props {
 export const BalancePanel: React.FC<Props> = ({ balance, movements }) => {
   return (
     <Wrapper>
-      <BalanceSpan>{balance}</BalanceSpan>
+      <span style={{ paddingLeft: 10, fontSize: 25 }}>Your current balance is</span>
+      <BalanceSpan>{numeral(balance).format("0.00")}</BalanceSpan>
+      <div style={{ display: "flex", marginBottom: 10 }}>
+        <i className="im im-plus-circle" />
+        &nbsp;Add a movement
+      </div>
       {movements.map(m => {
+        const isNegative: boolean = m.amount < 0;
+        const absValue: number = Math.abs(m.amount);
+        const formattedValue: string = numeral(absValue).format("0.00");
+        const movementDate: string = moment(m.date).format("DD-MM-YYYY");
+        const { info, icon } = MovementInfoAndIcon[m.type];
+
         return (
           <MovementWrapper key={m.id}>
-            {m.amount} - {m.description} - {m.type}
+            <div style={{ display: "flex", marginBottom: 10 }}>
+              {isNegative ? <i className="im im-angle-down" /> : <i className="im im-angle-up" />}
+              <span style={{ fontWeight: 900 }}>{formattedValue}</span>
+            </div>
+            <div style={{ display: "flex" }}>
+              <i className={`im ${icon}`} />
+              <span>
+                {info} {m.description && `(${m.description})`}
+              </span>
+              <span style={{ marginLeft: "auto" }}>{movementDate}</span>
+            </div>
           </MovementWrapper>
         );
       })}

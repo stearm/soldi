@@ -5,4 +5,5 @@ export interface Movement {
   amount: number;
   description?: string;
   type: MovementType;
+  date: number;
 }
