@@ -1,17 +1,18 @@
 import * as React from "react";
 import moment from "moment";
+import numeral from "numeral";
 import styled from "styled-components";
 import { Movement } from "../types/Movement";
 
-import numeral from "numeral";
 import { MovementInfoAndIcon } from "../types/MovementType";
+import { ChartsPanel } from "./ChartsPanel";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 10px;
   padding-right: 10px;
-  padding-top: 10%;
+  padding-top: 5%;
 `;
 
 const BalanceSpan = styled.span`
@@ -47,10 +48,7 @@ export const BalancePanel: React.FC<Props> = ({ balance, movements }) => {
     <Wrapper>
       <span style={{ paddingLeft: 10, fontSize: 25 }}>Your current balance is</span>
       <BalanceSpan>{numeral(balance).format("0.00")}</BalanceSpan>
-      <div style={{ display: "flex", marginBottom: 10 }}>
-        <i className="im im-plus-circle" />
-        &nbsp;Add a movement
-      </div>
+      <ChartsPanel />
       {movements.map(m => {
         const isNegative: boolean = m.amount < 0;
         const absValue: number = Math.abs(m.amount);
