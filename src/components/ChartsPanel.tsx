@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { line, curveMonotoneX } from "d3-shape";
 import { scaleTime, scaleLinear } from "d3-scale";
 import { max, min } from "d3-array";
+import SwipeableViews from "react-swipeable-views";
 
 const wrapperHeight = 250;
 
@@ -82,12 +83,17 @@ const getLinePath = (size: number, data: LineData) =>
 
 export const ChartsPanel: React.FC = () => {
   return (
-    <Wrapper>
-      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-        <g>
-          <path d={getLinePath(wrapperHeight, data)} stroke="#47449D" strokeWidth="4" fill="none" />
-        </g>
-      </svg>
-    </Wrapper>
+    <SwipeableViews>
+      <Wrapper>
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <g>
+            <path d={getLinePath(wrapperHeight, data)} stroke="#47449D" strokeWidth="4" fill="none" />
+          </g>
+        </svg>
+      </Wrapper>
+      <Wrapper>
+        <span>Ciaone</span>
+      </Wrapper>
+    </SwipeableViews>
   );
 };
