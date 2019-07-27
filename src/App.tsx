@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import { InitBalancePanel } from "./components/InitBalancePanel";
+// import { InitBalancePanel } from "./components/InitBalancePanel";
 import { BalancePanel } from "./components/BalancePanel";
 import { Movement } from "./types/Movement";
 import { MovementType } from "./types/MovementType";
 import { AddMovementButton } from "./components/AddMovementButton";
-import { AddMovementPanel } from "./components/AddMovementPanel";
+// import { AddMovementPanel } from "./components/AddMovementPanel";
 
 const movements: Array<Movement> = [
   { id: "1", amount: -10, type: MovementType.FOOD, date: Date.now() },
@@ -17,9 +17,9 @@ const movements: Array<Movement> = [
 function App() {
   return (
     <>
-      {/* <BalancePanel balance={125456.23} movements={movements} />
-      <AddMovementButton /> */}
-      <AddMovementPanel />
+      <BalancePanel balance={125456.23} movements={movements} />
+      <AddMovementButton />
+      {/* <AddMovementPanel /> */}
     </>
   );
   // return <InitBalancePanel />;
