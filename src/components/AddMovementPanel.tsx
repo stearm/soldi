@@ -1,7 +1,14 @@
 import * as React from "react";
 import styled from "styled-components";
-import { BalanceSpan } from "./styles/BalanceSpan";
+import { RouteComponentProps, Link as RouterLink } from "react-router-dom";
+import { parse } from "query-string";
 import { MovementType, MovementInfoAndIcon } from "../types/MovementType";
+
+const Link = styled(RouterLink)`
+  text-decoration: none;
+  color: black;
+  margin-right: 10px;
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -41,11 +48,19 @@ const MovementInput = styled.input`
   width: 100%;
 `;
 
-export const AddMovementPanel: React.FC = () => {
+type Props = RouteComponentProps;
+
+export const AddMovementPanel: React.FC<Props> = ({ location }) => {
+  const queryParams = parse(location.search);
+  const movementType = queryParams.type;
+
   return (
     <Wrapper>
       <div>
-        <TypeSpan>Income</TypeSpan>
+        <Link to="/">
+          <i className="im im-arrow-left" style={{ top: 3 }} />
+        </Link>
+        <TypeSpan>{!movementType || movementType === "in" ? "Income" : "Expense"}</TypeSpan>
       </div>
       <div>
         <MovementInput type="text" />

@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled, { CSSProperties } from "styled-components";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -8,11 +9,11 @@ const Wrapper = styled.div`
   padding: 10px 15px;
   background: #1f64d4;
   border-radius: 10px;
-  & > i {
+  & > a > i {
     font-size: 40px;
   }
 
-  & > i:first-child {
+  & > a > i.im-plus-circle {
     margin-right: 20px;
   }
 `;
@@ -22,8 +23,12 @@ const iconStyle: CSSProperties = { color: "#ffffff", position: "relative", top: 
 export const AddMovementButton: React.FC = () => {
   return (
     <Wrapper>
-      <i className="im im-plus-circle" style={iconStyle} />
-      <i className="im im-minus-circle" style={iconStyle} />
+      <Link to="/add-movement/?type=in">
+        <i className="im im-plus-circle" style={iconStyle} />
+      </Link>
+      <Link to="/add-movement/?type=out">
+        <i className="im im-minus-circle" style={iconStyle} />
+      </Link>
     </Wrapper>
   );
 };

@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-const decimalRegExp = new RegExp(/^[0-9]*\.[0-9]{2}$/);
+const decimalRegExp = new RegExp(/^\d{0,10}(\.\d{2})?$/);
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,6 +24,8 @@ const BalanceInput = styled.input`
 const SubmitButton = styled.button`
   margin-top: 5px;
   font-size: 55px;
+  font-weight: 800;
+  border-radius: 10px;
 `;
 
 export const InitBalancePanel: React.FC = () => {
@@ -39,7 +41,7 @@ export const InitBalancePanel: React.FC = () => {
     <Wrapper>
       <BalanceSpan>Enter your initial balance:</BalanceSpan>
       <BalanceInput type="text" value={balance} onChange={e => setBalance(e.target.value)} />
-      <SubmitButton>Start</SubmitButton>
+      <SubmitButton disabled={isWrongFormat}>Start</SubmitButton>
     </Wrapper>
   );
 };

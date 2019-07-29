@@ -42,7 +42,7 @@ export const BalancePanel: React.FC<Props> = ({ balance, movements }) => {
     <Wrapper>
       <span style={{ paddingLeft: 10, fontSize: 25 }}>Your current balance is</span>
       <BalanceSpan>{numeral(balance).format("0.00")}</BalanceSpan>
-      <ChartsPanel />
+      <ChartsPanel balance={balance} movements={movements} />
       {movements.map(m => {
         const isNegative: boolean = m.amount < 0;
         const absValue: number = Math.abs(m.amount);
@@ -53,14 +53,15 @@ export const BalancePanel: React.FC<Props> = ({ balance, movements }) => {
         return (
           <MovementWrapper key={m.id}>
             <div style={{ display: "flex", marginBottom: 10 }}>
-              {isNegative ? <i className="im im-angle-down" /> : <i className="im im-angle-up" />}
-              <span style={{ fontWeight: 900 }}>{formattedValue}</span>
+              <span style={{ fontWeight: 900 }}>
+                {isNegative ? "-" : "+"}&nbsp;
+                {formattedValue}
+              </span>
             </div>
             <div style={{ display: "flex" }}>
-              <i className={`im ${icon}`} />
-              <span>
-                {info} {m.description && `(${m.description})`}
-              </span>
+              <i style={{ color: MovementInfoAndIcon[m.type].color }} className={`im ${icon}`} />
+              <span>{info}&nbsp;</span>
+              <span>{m.description && `(${m.description})`} </span>
               <span style={{ marginLeft: "auto" }}>{movementDate}</span>
             </div>
           </MovementWrapper>

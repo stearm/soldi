@@ -9,37 +9,45 @@ export enum MovementType {
   OTHER = "OTHER"
 }
 
-export const MovementInfoAndIcon: { [k in MovementType]: { icon: string; info: string } } = {
+export const MovementInfoAndIcon: { [k in MovementType]: { icon: string; info: string; color: string } } = {
   [MovementType.FOOD]: {
     icon: "im-pizza",
-    info: "Food"
+    info: "Food",
+    color: "#7285a5"
   },
   [MovementType.PUBLIC_TRANSPORT]: {
     icon: "im-plane",
-    info: "Public transport"
+    info: "Public transport",
+    color: "#4682b4"
   },
   [MovementType.FUEL]: {
     icon: "im-rocket",
-    info: "Fuel"
+    info: "Fuel",
+    color: "#0e4d92"
   },
   [MovementType.FUN]: {
     icon: "im-gamepad",
-    info: "Fun"
+    info: "Fun",
+    color: "#b0dfe5"
   },
   [MovementType.MUTUO]: {
     icon: "im-bank",
-    info: "Mutuo"
+    info: "Mutuo",
+    color: "#1d2951"
   },
   [MovementType.SPESE_CONDOMINIALI]: {
     icon: "im-home",
-    info: "Spese condominio"
+    info: "Spese condominio",
+    color: "#008ecc"
   },
   [MovementType.STIPENDIO]: {
     icon: "im-coin",
-    info: "Stipendio"
+    info: "Stipendio",
+    color: "#1f64d4"
   },
   [MovementType.OTHER]: {
     icon: "im-data",
-    info: "Altro"
+    info: "Altro",
+    color: "#6593f5"
   }
 };

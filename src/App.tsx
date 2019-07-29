@@ -1,11 +1,12 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-// import { InitBalancePanel } from "./components/InitBalancePanel";
 import { BalancePanel } from "./components/BalancePanel";
 import { Movement } from "./types/Movement";
 import { MovementType } from "./types/MovementType";
 import { AddMovementButton } from "./components/AddMovementButton";
-// import { AddMovementPanel } from "./components/AddMovementPanel";
+import { AddMovementPanel } from "./components/AddMovementPanel";
+import { InitBalancePanel } from "./components/InitBalancePanel";
 
 const movements: Array<Movement> = [
   { id: "1", amount: -10, type: MovementType.FOOD, date: Date.now() },
@@ -14,15 +15,34 @@ const movements: Array<Movement> = [
   { id: "4", amount: -10, description: "Rocket", type: MovementType.FUN, date: Date.now() }
 ];
 
+const balance = 1;
+
 function App() {
   return (
-    <>
-      <BalancePanel balance={125456.23} movements={movements} />
-      <AddMovementButton />
-      {/* <AddMovementPanel /> */}
-    </>
+    <Router>
+      <Route
+        render={({ location }) => (
+          <Switch location={location}>
+            <Route
+              path="/"
+              exact
+              component={() =>
+                balance ? (
+                  <>
+                    <BalancePanel balance={125456.23} movements={movements} />
+                    <AddMovementButton />
+                  </>
+                ) : (
+                  <InitBalancePanel />
+                )
+              }
+            />
+            <Route path="/add-movement" component={AddMovementPanel} />
+          </Switch>
+        )}
+      />
+    </Router>
   );
-  // return <InitBalancePanel />;
 }
 
 export default App;
