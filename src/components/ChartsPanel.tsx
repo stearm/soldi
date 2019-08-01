@@ -4,13 +4,14 @@ import styled from "styled-components";
 import { line, curveNatural, arc, pie, PieArcDatum } from "d3-shape";
 import { scaleTime, scaleLinear, scaleOrdinal } from "d3-scale";
 import { max, min } from "d3-array";
+import { groupBy, sumBy } from "lodash";
 import SwipeableViews from "react-swipeable-views";
 import { Movement } from "../types/Movement";
 import { LineData, Pair } from "../types/Charts";
 import { MovementType, MovementInfoAndIcon } from "../types/MovementType";
 
 interface Props {
-  balance: number;
+  startBalance: number;
   movements: Array<Movement>;
 }
 
@@ -22,47 +23,7 @@ const Wrapper = styled.div<{ height: number }>`
   margin-bottom: 15px;
 `;
 
-const data: LineData = [
-  [moment().toDate(), 0],
-  [
-    moment()
-      .add(2, "day")
-      .toDate(),
-    20
-  ],
-  [
-    moment()
-      .add(4, "day")
-      .toDate(),
-    20
-  ],
-  [
-    moment()
-      .add(9, "day")
-      .toDate(),
-    25
-  ],
-  [
-    moment()
-      .add(15, "day")
-      .toDate(),
-    60
-  ],
-  [
-    moment()
-      .add(17, "day")
-      .toDate(),
-    225
-  ],
-  [
-    moment()
-      .add(18, "day")
-      .toDate(),
-    200
-  ]
-];
-
-export const ChartsPanel: React.FC<Props> = ({ balance, movements }) => {
+export const ChartsPanel: React.FC<Props> = ({ startBalance, movements }) => {
   const svgRef = React.useRef<SVGSVGElement>(null);
 
   const [state, setState] = React.useState({ width: 0, height: 0 });
@@ -76,11 +37,33 @@ export const ChartsPanel: React.FC<Props> = ({ balance, movements }) => {
 
   // line chart
 
-  const onlyDates = data.map(d => d[0]);
-  const onlyValues = data.map(d => d[1]);
+  //  group by and sum amounts by same date
+  const movementsGroupedByDay = groupBy(movements, m =>
+    moment(m.date)
+      .startOf("day")
+      .toDate()
+  );
+
+  const byDayMovements: LineData = Object.keys(movementsGroupedByDay).map(day => {
+    return [moment(day).toDate(), sumBy(movementsGroupedByDay[day], "amount")];
+  });
+
+  // init the first entry with start balance
+  const data: LineData = byDayMovements.reverse().map((m, i) => {
+    return [m[0], i === 0 ? m[1] + startBalance : m[1]];
+  });
+
+  // getting each point using data before
+  const refinedData: LineData = data.map((d, i) => {
+    const accumulatedValue = data.slice(0, i).reduce((prev, next) => prev + next[1], d[1]);
+    return [d[0], accumulatedValue];
+  });
+
+  const onlyDates = refinedData.map(d => d[0]);
+  const onlyValues = refinedData.map(d => d[1]);
 
   const xDomain = [min(onlyDates)!, max(onlyDates)!];
-  const yDomain = [min(onlyValues)!, max(onlyValues)!];
+  const yDomain = [0, max(onlyValues)!];
 
   const xScale = scaleTime()
     .domain(xDomain)
@@ -90,7 +73,7 @@ export const ChartsPanel: React.FC<Props> = ({ balance, movements }) => {
     .domain(yDomain)
     .range([state.height, 0]);
 
-  const getLinePath = (size: number, data: LineData) =>
+  const getLinePath = (data: LineData) =>
     line<Pair>()
       .x(d => xScale(d[0]))
       .y(d => yScale(d[1]))
@@ -107,12 +90,8 @@ export const ChartsPanel: React.FC<Props> = ({ balance, movements }) => {
     .domain(movementType)
     .range(Object.values(MovementInfoAndIcon).map(v => v.color));
 
-  const pieData = [
-    { type: MovementType.FOOD, value: 5 },
-    { type: MovementType.FUEL, value: 8 },
-    { type: MovementType.MUTUO, value: 13 },
-    { type: MovementType.OTHER, value: 21 }
-  ];
+  const pieData = movements.map(m => ({ type: m.type, value: Math.abs(m.amount) }));
+  console.log(pieData);
 
   const arcs = pie<number>()(pieData.map(d => d.value));
 
@@ -123,7 +102,7 @@ export const ChartsPanel: React.FC<Props> = ({ balance, movements }) => {
       <Wrapper height={wrapperHeight}>
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" ref={svgRef}>
           <g>
-            <path d={getLinePath(wrapperHeight, data)} stroke="#1f64d4" strokeWidth="4" fill="none" />
+            <path d={getLinePath(refinedData)} stroke="#1f64d4" strokeWidth="4" fill="none" />
           </g>
         </svg>
       </Wrapper>

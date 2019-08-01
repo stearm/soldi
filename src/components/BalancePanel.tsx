@@ -34,15 +34,17 @@ const MovementWrapper = styled.div`
 
 interface Props {
   balance: number;
+  startBalance: number;
+  endBalance: number;
   movements: Array<Movement>;
 }
 
-export const BalancePanel: React.FC<Props> = ({ balance, movements }) => {
+export const BalancePanel: React.FC<Props> = ({ balance, startBalance, endBalance, movements }) => {
   return (
     <Wrapper>
       <span style={{ paddingLeft: 10, fontSize: 25 }}>Your current balance is</span>
       <BalanceSpan>{numeral(balance).format("0.00")}</BalanceSpan>
-      <ChartsPanel balance={balance} movements={movements} />
+      <ChartsPanel startBalance={startBalance} movements={movements} />
       {movements.map(m => {
         const isNegative: boolean = m.amount < 0;
         const absValue: number = Math.abs(m.amount);
