@@ -90,7 +90,11 @@ export const ChartsPanel: React.FC<Props> = ({ startBalance, movements }) => {
     .domain(movementType)
     .range(Object.values(MovementInfoAndIcon).map(v => v.color));
 
-  const pieData = movements.map(m => ({ type: m.type, value: Math.abs(m.amount) }));
+  const movemensGroupedByType = groupBy(movements, "type");
+  const pieData = Object.keys(movemensGroupedByType).map(type => ({
+    type,
+    value: sumBy(movemensGroupedByType[type], m => Math.abs(m.amount))
+  }));
 
   const arcs = pie<number>()(pieData.map(d => d.value));
 

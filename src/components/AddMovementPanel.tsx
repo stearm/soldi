@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { RouteComponentProps, Link as RouterLink } from "react-router-dom";
 import { parse } from "query-string";
 import { MovementType, MovementInfoAndIcon } from "../types/MovementType";
+import { CreateMovementMutationFN } from "../containers/AddMovementContainer";
+import { useFormatChecker } from "../hooks/useFormatChecker";
+import { ShowFeedbackContext } from "../ShowFeedbackContext";
 
 const Link = styled(RouterLink)`
   text-decoration: none;
@@ -48,11 +51,29 @@ const MovementInput = styled.input`
   width: 100%;
 `;
 
-type Props = RouteComponentProps;
+const DescriptionInput = styled.input`
+  padding: 20px 0px;
+  font-size: 30px;
+  width: 100%;
+`;
 
-export const AddMovementPanel: React.FC<Props> = ({ location }) => {
+type Props = RouteComponentProps & { loading: boolean; error?: string; create: CreateMovementMutationFN };
+
+export const AddMovementPanel: React.FC<Props> = ({ location, loading, error, create }) => {
+  const [state, setState] = React.useState({
+    amount: "",
+    description: "",
+    date: Date.now()
+  });
+
+  const isWrongFormat = useFormatChecker(state.amount);
+  const wrongFormatStyle = { color: isWrongFormat ? "grey" : "black" };
+
+  const showFeedback = React.useContext(ShowFeedbackContext);
+
   const queryParams = parse(location.search);
-  const movementType = queryParams.type;
+  const movementType = queryParams.type !== "in" && queryParams.type !== "out" ? "in" : queryParams.type;
+  const withSignAmount = movementType === "out" ? -state.amount : state.amount;
 
   return (
     <Wrapper>
@@ -63,15 +84,48 @@ export const AddMovementPanel: React.FC<Props> = ({ location }) => {
         <TypeSpan>{!movementType || movementType === "in" ? "Income" : "Expense"}</TypeSpan>
       </div>
       <div>
-        <MovementInput type="text" />
+        <MovementInput
+          type="text"
+          value={state.amount}
+          placeholder="Amount"
+          onChange={e => {
+            setState({ ...state, amount: e.target.value });
+          }}
+        />
+        <DescriptionInput
+          type="text"
+          placeholder="Description"
+          value={state.description}
+          onChange={e => {
+            setState({ ...state, description: e.target.value });
+          }}
+        />
       </div>
       <Categories>
         {Object.keys(MovementInfoAndIcon).map((mt, i) => {
           const { icon, info } = MovementInfoAndIcon[mt as MovementType];
           return (
-            <Category key={i}>
-              <i style={{ alignSelf: "center", fontSize: 40 }} className={`im ${icon}`} />
-              <span style={{ textAlign: "center" }}>{info}</span>
+            <Category
+              key={i}
+              onClick={async () => {
+                if (!isWrongFormat) {
+                  try {
+                    await create({
+                      amount: Number(withSignAmount),
+                      type: mt as MovementType,
+                      description: state.description
+                    });
+
+                    showFeedback.toggle(movementType);
+                    window.history.back();
+                  } catch (err) {
+                    throw new Error("Whops, something went wrong!");
+                  }
+                }
+              }}
+            >
+              <i style={{ alignSelf: "center", fontSize: 40, ...wrongFormatStyle }} className={`im ${icon}`} />
+              <span style={{ textAlign: "center", ...wrongFormatStyle }}>{info}</span>
             </Category>
           );
         })}

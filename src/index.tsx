@@ -5,6 +5,7 @@ import { devtoolsExchange } from "@urql/devtools";
 
 import "./index.css";
 import App from "./App";
+import { ShowFeedbackProvider } from "./ShowFeedbackContext";
 
 const client = createClient({
   url: "http://localhost:4000",
@@ -13,7 +14,9 @@ const client = createClient({
 
 ReactDOM.render(
   <Provider value={client}>
-    <App />
+    <ShowFeedbackProvider>
+      <App />
+    </ShowFeedbackProvider>
   </Provider>,
   document.getElementById("root")
 );

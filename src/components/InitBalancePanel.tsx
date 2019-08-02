@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-const decimalRegExp = new RegExp(/^\d{0,10}(\.\d{2})?$/);
+import { useFormatChecker } from "../hooks/useFormatChecker";
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,12 +30,7 @@ const SubmitButton = styled.button`
 
 export const InitBalancePanel: React.FC = () => {
   const [balance, setBalance] = React.useState("");
-  const [isWrongFormat, setIsWrongFormat] = React.useState(false);
-
-  React.useEffect(() => {
-    const match = decimalRegExp.test(balance);
-    setIsWrongFormat(!match);
-  }, [balance]);
+  const isWrongFormat = useFormatChecker(balance);
 
   return (
     <Wrapper>

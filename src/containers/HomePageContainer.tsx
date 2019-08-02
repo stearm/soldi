@@ -1,6 +1,7 @@
 import * as React from "react";
 import moment from "moment";
 import { useQuery } from "urql";
+import gql from "graphql-tag";
 
 import { Balance } from "../types/Balance";
 import { Movement } from "../types/Movement";
@@ -8,7 +9,7 @@ import { BalancePanel } from "../components/BalancePanel";
 import { InitBalancePanel } from "../components/InitBalancePanel";
 import { AddMovementButton } from "../components/AddMovementButton";
 
-const GET_BALANCE_AND_MOVEMENTS = `
+const GET_BALANCE_AND_MOVEMENTS = gql`
   query getBalanceAndMovements($startDate: Date, $endDate: Date) {
     getBalance: balance {
       id

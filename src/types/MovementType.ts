@@ -48,6 +48,6 @@ export const MovementInfoAndIcon: { [k in MovementType]: { icon: string; info: s
   [MovementType.OTHER]: {
     icon: "im-data",
     info: "Altro",
-    color: "#6593f5"
+    color: "#3fe0d0"
   }
 };
