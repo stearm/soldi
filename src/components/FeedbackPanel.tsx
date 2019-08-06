@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
   border-radius: 10px;
   background: #ffffff;
@@ -26,11 +27,12 @@ const porcellini = {
 };
 
 export const FeedbackPanel: React.FC = () => {
-  const { show, type } = React.useContext(ShowFeedbackContext);
+  const { show, type, info } = React.useContext(ShowFeedbackContext);
   return (
     <CSSTransition in={show} timeout={300} classNames="alert" unmountOnExit>
       <Wrapper>
         <img alt="porcellino" style={{ width: 125 }} src={porcellini[type]} />
+        <div style={{ fontWeight: 800, fontSize: 15 }}>{info}</div>
       </Wrapper>
     </CSSTransition>
   );

@@ -8,6 +8,8 @@ import { Movement } from "../types/Movement";
 import { BalancePanel } from "../components/BalancePanel";
 import { InitBalancePanel } from "../components/InitBalancePanel";
 import { AddMovementButton } from "../components/AddMovementButton";
+import { DayPicker } from "../components/DayPicker";
+import { CSSProperties } from "react";
 
 const GET_BALANCE_AND_MOVEMENTS = gql`
   query getBalanceAndMovements($startDate: Date, $endDate: Date) {
@@ -46,14 +48,25 @@ type QueryResult = {
   listMovements: { content: Array<Movement> };
 };
 
+const iconStyle: CSSProperties = { color: "#000000", position: "relative", top: 3 };
+
 const HomePageContainer: React.FC = () => {
+  const [dateRange, setDateRange] = React.useState<{ startDate: moment.Moment | null; endDate: moment.Moment | null }>({
+    startDate: moment().startOf("month"),
+    endDate: moment().endOf("month")
+  });
+
+  const [isPickerOpen, setPickerOpen] = React.useState(false);
+
   const result = useQuery<QueryResult>({
     query: GET_BALANCE_AND_MOVEMENTS,
     variables: {
-      startDate: moment().startOf("month"),
-      endDate: moment().endOf("month")
+      ...dateRange
     }
   });
+
+  const changeRange = (startDate: moment.Moment | null, endDate: moment.Moment | null) =>
+    setDateRange({ startDate, endDate });
 
   const { data, fetching } = result[0];
 
@@ -73,6 +86,14 @@ const HomePageContainer: React.FC = () => {
       <InitBalancePanel />
     ) : (
       <>
+        <i className="im im-calendar" style={iconStyle} onClick={_ => setPickerOpen(pickerOpen => !pickerOpen)} />
+        {isPickerOpen && (
+          <DayPicker
+            onChangeDateRange={changeRange}
+            selectedStartDate={dateRange.startDate}
+            selectedEndDate={dateRange.endDate}
+          />
+        )}
         <BalancePanel
           balance={balance.amount}
           startBalance={startBalance.amount}

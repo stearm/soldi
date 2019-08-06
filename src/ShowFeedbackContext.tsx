@@ -1,22 +1,32 @@
 import * as React from "react";
 
 type FeedbackType = "in" | "out";
-type ShowFeedbackT = { show: boolean; type: FeedbackType; toggle: (type: FeedbackType) => any };
+type ShowFeedbackT = {
+  show: boolean;
+  type: FeedbackType;
+  info: string | null;
+  toggle: (type: FeedbackType, info: string) => any;
+};
 const initialShowFeedbackValue = {
   show: false,
   type: "in" as FeedbackType,
-  toggle: (type: FeedbackType) => {}
+  info: null,
+  toggle: (type: FeedbackType, info: string) => {}
 };
 const ShowFeedbackContext = React.createContext<ShowFeedbackT>(initialShowFeedbackValue);
 
 const ShowFeedbackProvider: React.FC = ({ children }) => {
-  const [state, setState] = React.useState<Pick<ShowFeedbackT, "show" | "type">>({ show: false, type: "in" });
+  const [state, setState] = React.useState<Pick<ShowFeedbackT, "show" | "type" | "info">>({
+    show: false,
+    type: "in",
+    info: null
+  });
 
   React.useEffect(() => {
     if (state.show) {
       const timeoutId = setTimeout(() => {
-        setState(state => ({ ...state, show: false }));
-      }, 3000);
+        setState(state => ({ ...state, show: false, info: null }));
+      }, 2000);
 
       return () => clearInterval(timeoutId);
     }
@@ -26,7 +36,7 @@ const ShowFeedbackProvider: React.FC = ({ children }) => {
     <ShowFeedbackContext.Provider
       value={{
         ...state,
-        toggle: (type: FeedbackType) => setState({ show: true, type })
+        toggle: (type: FeedbackType, info: string) => setState({ show: true, type, info })
       }}
     >
       {children}

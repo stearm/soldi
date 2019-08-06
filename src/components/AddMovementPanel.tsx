@@ -116,7 +116,7 @@ export const AddMovementPanel: React.FC<Props> = ({ location, loading, error, cr
                       description: state.description
                     });
 
-                    showFeedback.toggle(movementType);
+                    showFeedback.toggle(movementType, `${String(withSignAmount)} in ${info}`);
                     window.history.back();
                   } catch (err) {
                     throw new Error("Whops, something went wrong!");

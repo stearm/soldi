@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Movement } from "../types/Movement";
 
 import { MovementInfoAndIcon } from "../types/MovementType";
-import { BalanceSpan } from "./styles/BalanceSpan";
+import { BalanceSpan } from "./BalanceSpan";
 import { ChartsPanel } from "./ChartsPanel";
 
 const Wrapper = styled.div`
@@ -58,15 +58,15 @@ export const BalancePanel: React.FC<Props> = ({ balance, startBalance, endBalanc
           return (
             <MovementWrapper key={m.id}>
               <div style={{ display: "flex", marginBottom: 10 }}>
-                <span style={{ fontWeight: 900 }}>
+                <span style={{ fontWeight: 900, marginRight: 2 }}>
                   {isNegative ? "-" : "+"}&nbsp;
                   {formattedValue}
                 </span>
+                <span>{m.description && `(${m.description})`}</span>
               </div>
               <div style={{ display: "flex" }}>
                 <i style={{ color: MovementInfoAndIcon[m.type].color }} className={`im ${icon}`} />
                 <span>{info}&nbsp;</span>
-                <span>{m.description && `(${m.description})`} </span>
                 <span style={{ marginLeft: "auto" }}>{movementDate}</span>
               </div>
             </MovementWrapper>
