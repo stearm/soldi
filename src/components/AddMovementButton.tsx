@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   right: 20px;
   padding: 10px 15px;
   background: #1f64d4;
-  border-radius: 10px;
+  border-radius: 5px;
   & > a > i {
     font-size: 40px;
   }

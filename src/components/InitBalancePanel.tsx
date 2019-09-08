@@ -25,7 +25,7 @@ const SubmitButton = styled.button`
   margin-top: 5px;
   font-size: 55px;
   font-weight: 800;
-  border-radius: 10px;
+  border-radius: 5px;
 `;
 
 export const InitBalancePanel: React.FC = () => {

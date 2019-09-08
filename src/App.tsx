@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import "./App.css";
 import { FeedbackPanel } from "./components/FeedbackPanel";
 import { AddMovementContainer } from "./containers/AddMovementContainer";
 import { HomePageContainer } from "./containers/HomePageContainer";

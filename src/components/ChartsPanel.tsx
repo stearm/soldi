@@ -18,9 +18,10 @@ interface Props {
 const Wrapper = styled.div<{ height: number }>`
   width: 100%;
   height: ${props => `${props.height}px`};
-  border-radius: 10px;
-  background: #f7f7f7;
+  background: #fff;
+  border-radius: 5px;
   margin-bottom: 15px;
+  box-shadow: rgba(8, 35, 51, 0.03) 0px 0px 2px, rgba(8, 35, 51, 0.05) 0px 3px 6px;
 `;
 
 export const ChartsPanel: React.FC<Props> = ({ startBalance, movements }) => {
@@ -45,7 +46,7 @@ export const ChartsPanel: React.FC<Props> = ({ startBalance, movements }) => {
   );
 
   const byDayMovements: LineData = Object.keys(movementsGroupedByDay).map(day => {
-    return [moment(day).toDate(), sumBy(movementsGroupedByDay[day], "amount")];
+    return [new Date(day), sumBy(movementsGroupedByDay[day], "amount")];
   });
 
   // init the first entry with start balance

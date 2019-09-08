@@ -8,9 +8,7 @@ import "./index.css";
 import App from "./App";
 import { ShowFeedbackProvider } from "./ShowFeedbackContext";
 
-// const url = "http://192.168.1.167:4000";
-const url = "http://10.0.0.49:4000";
-// const url = "http://localhost:4000";
+const url = "http://localhost:4000";
 
 const client = createClient({
   url,
