@@ -46,11 +46,6 @@ interface Props {
   movements: Array<Movement>;
 }
 
-/**
- * How to paginate
- * https://github.com/FormidableLabs/urql/issues/201#issuecomment-523784199
- * */
-
 export const BalancePanel: React.FC<Props> = ({
   balance,
   startBalance,
@@ -109,8 +104,14 @@ export const BalancePanel: React.FC<Props> = ({
           );
         })}
       </div>
-      <div onClick={onPreviousPage}>prev</div>
-      <div onClick={onNextPage}>next</div>
+      <div style={{ display: "flex", marginTop: 20, color: "#1f64d4" }}>
+        <div onClick={onPreviousPage} style={{ marginRight: 8 }}>
+          <i className="im im-arrow-left-circle" />
+        </div>
+        <div onClick={onNextPage}>
+          <i className="im im-arrow-right-circle" />
+        </div>
+      </div>
       {isPickerOpen && (
         <DayPicker
           onClickOutside={() => setPickerOpen(false)}

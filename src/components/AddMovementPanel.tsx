@@ -111,9 +111,11 @@ export const AddMovementPanel: React.FC<Props> = ({ location, loading, error, cr
                 if (!isWrongFormat) {
                   try {
                     await create({
-                      amount: Number(withSignAmount),
-                      type: mt as MovementType,
-                      description: state.description
+                      variables: {
+                        amount: Number(withSignAmount),
+                        type: mt as MovementType,
+                        description: state.description
+                      }
                     });
 
                     showFeedback.toggle(movementType, `${String(withSignAmount)} in ${info}`);

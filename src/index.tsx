@@ -1,25 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider, createClient, fetchExchange, cacheExchange } from "urql";
-import { devtoolsExchange } from "@urql/devtools";
+import { ApolloProvider } from "@apollo/react-hooks";
+import ApolloClient, { InMemoryCache } from "apollo-boost";
 import "react-dates/initialize";
 
 import "./index.css";
 import App from "./App";
 import { ShowFeedbackProvider } from "./ShowFeedbackContext";
 
-const url = "http://localhost:4000";
-
-const client = createClient({
-  url,
-  exchanges: [devtoolsExchange, cacheExchange, fetchExchange]
-});
+const uri = "http://localhost:4000";
+const client = new ApolloClient({ uri, cache: new InMemoryCache() });
 
 ReactDOM.render(
-  <Provider value={client}>
+  <ApolloProvider client={client}>
     <ShowFeedbackProvider>
       <App />
     </ShowFeedbackProvider>
-  </Provider>,
+  </ApolloProvider>,
   document.getElementById("root")
 );

@@ -5,20 +5,19 @@ import { Link } from "react-router-dom";
 const Wrapper = styled.div`
   position: fixed;
   bottom: 10px;
-  right: 20px;
-  padding: 10px 15px;
-  background: #1f64d4;
+  right: 0px;
+  padding: 8px 10px;
   border-radius: 5px;
   & > a > i {
-    font-size: 40px;
+    font-size: 30px;
   }
 
   & > a > i.im-plus-circle {
-    margin-right: 20px;
+    margin-right: 8px;
   }
 `;
 
-const iconStyle: CSSProperties = { color: "#ffffff", position: "relative", top: 3 };
+const iconStyle: CSSProperties = { color: "rgb(31, 100, 212)", position: "relative", top: 3 };
 
 export const AddMovementButton: React.FC = () => {
   return (

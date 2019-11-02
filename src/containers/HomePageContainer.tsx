@@ -1,7 +1,7 @@
 import * as React from "react";
 import moment from "moment";
-import { useQuery } from "urql";
 import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
 
 import { Balance } from "../types/Balance";
 import { Movement } from "../types/Movement";
@@ -59,8 +59,7 @@ const HomePageContainer: React.FC = () => {
 
   const [offset, setOffset] = React.useState(0);
 
-  const result = useQuery<QueryResult>({
-    query: GET_BALANCE_AND_MOVEMENTS,
+  const { loading, data } = useQuery<QueryResult>(GET_BALANCE_AND_MOVEMENTS, {
     variables: {
       ...dateRange,
       offset,
@@ -74,9 +73,7 @@ const HomePageContainer: React.FC = () => {
   const nextPage = () => setOffset(offset => offset + LIMIT);
   const previousPage = () => setOffset(offset => offset - LIMIT);
 
-  const { data, fetching } = result[0];
-
-  if (fetching || !data) {
+  if (loading || !data) {
     return <span>Loading...</span>;
   } else {
     const balance = data.getBalance;

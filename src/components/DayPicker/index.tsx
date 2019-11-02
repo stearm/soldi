@@ -27,6 +27,19 @@ type State = {
   selectedYear: { value: string; label: string };
 };
 
+const customStyles = {
+  option: (provided: any) => ({
+    ...provided,
+    fontSize: 12
+  }),
+  singleValue: (provided: any) => {
+    return { ...provided, fontSize: 12 };
+  },
+  menuList: (provided: any) => {
+    return { ...provided };
+  }
+};
+
 const PickerWrapper = styled.div`
   position: fixed;
   width: 100%;
@@ -48,7 +61,7 @@ const PickerWrapper = styled.div`
 const Button = styled.button`
   font-weight: 900;
   margin-top: 20px;
-  width: calc(100% - 90px);
+  width: calc(100% - 205px);
 `;
 
 export const DayPicker: React.FC<Props> = props => {
@@ -155,42 +168,46 @@ export const DayPicker: React.FC<Props> = props => {
           top: -10
         }}
       >
-        <Select
-          isClearable={false}
-          isSearchable={false}
-          onChange={(option: any) => {
-            props.onMonthSelect(props.month, option.value);
-            setState(state => ({ ...state, selectedMonth: { value: option.value, label: option.label } }));
-          }}
-          options={monthSelect}
-          style={{ width: 105, marginRight: 3 }}
-          value={
-            selectedStartMonth
-              ? {
-                  value: selectedStartMonth.value,
-                  label: selectedStartMonth.label
-                }
-              : null
-          }
-        />
-        <Select
-          isClearable={false}
-          isSearchable={false}
-          onChange={(option: any) => {
-            props.onYearSelect(props.month, option.value);
-            setState(state => ({ ...state, selectedYear: { value: option.value, label: option.label } }));
-          }}
-          options={yearSelect}
-          style={{ width: 75, marginLeft: 3 }}
-          value={
-            selectedStartYear
-              ? {
-                  value: selectedStartYear.value,
-                  label: selectedStartYear.label
-                }
-              : null
-          }
-        />
+        <div style={{ flexBasis: "40%", marginRight: 8 }}>
+          <Select
+            isClearable={false}
+            isSearchable={false}
+            onChange={(option: any) => {
+              props.onMonthSelect(props.month, option.value);
+              setState(state => ({ ...state, selectedMonth: { value: option.value, label: option.label } }));
+            }}
+            options={monthSelect}
+            styles={customStyles}
+            value={
+              selectedStartMonth
+                ? {
+                    value: selectedStartMonth.value,
+                    label: selectedStartMonth.label
+                  }
+                : null
+            }
+          />
+        </div>
+        <div style={{ flexBasis: "30%" }}>
+          <Select
+            isClearable={false}
+            isSearchable={false}
+            onChange={(option: any) => {
+              props.onYearSelect(props.month, option.value);
+              setState(state => ({ ...state, selectedYear: { value: option.value, label: option.label } }));
+            }}
+            options={yearSelect}
+            styles={customStyles}
+            value={
+              selectedStartYear
+                ? {
+                    value: selectedStartYear.value,
+                    label: selectedStartYear.label
+                  }
+                : null
+            }
+          />
+        </div>
       </div>
     );
   };
