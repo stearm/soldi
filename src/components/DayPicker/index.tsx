@@ -61,7 +61,6 @@ const PickerWrapper = styled.div`
 const Button = styled.button`
   font-weight: 900;
   margin-top: 20px;
-  width: calc(100% - 205px);
 `;
 
 export const DayPicker: React.FC<Props> = props => {
