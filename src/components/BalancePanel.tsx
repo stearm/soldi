@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding-left: 10px;
   padding-right: 10px;
-  padding-top: 5%;
+  padding-top: 10px;
 `;
 
 const MovementWrapper = styled.div`
@@ -31,6 +31,26 @@ const MovementWrapper = styled.div`
 
   & > div > i {
     margin-right: 10px;
+  }
+`;
+
+const ArrowsWrapper = styled.div`
+  display: flex;
+  position: fixed;
+  bottom: 10px;
+  left: 0px;
+  padding: 8px 10px;
+  border-radius: 5px;
+  color: rgb(31, 100, 212);
+
+  & > div > i.im-arrow-left-circle {
+    margin-right: 8px;
+  }
+
+  & > div > i {
+    position: relative;
+    top: 3px;
+    font-size: 30px;
   }
 `;
 
@@ -104,14 +124,14 @@ export const BalancePanel: React.FC<Props> = ({
           );
         })}
       </div>
-      <div style={{ display: "flex", marginTop: 20, color: "#1f64d4" }}>
-        <div onClick={onPreviousPage} style={{ marginRight: 8 }}>
+      <ArrowsWrapper>
+        <div onClick={onPreviousPage} style={{ position: "relative" }}>
           <i className="im im-arrow-left-circle" />
         </div>
-        <div onClick={onNextPage}>
+        <div onClick={onNextPage} style={{ position: "relative" }}>
           <i className="im im-arrow-right-circle" />
         </div>
-      </div>
+      </ArrowsWrapper>
       {isPickerOpen && (
         <DayPicker
           onClickOutside={() => setPickerOpen(false)}

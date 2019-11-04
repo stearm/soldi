@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding-left: 10px;
   padding-right: 10px;
-  padding-top: 5%;
+  padding-top: 10px;
 `;
 
 const TypeSpan = styled.span`
@@ -46,14 +46,18 @@ const Category = styled.div`
 `;
 
 const MovementInput = styled.input`
-  padding: 20px 0px;
-  font-size: 55px;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 45px;
   width: 100%;
+  margin-top: 15px;
+  margin-bottom: 5px;
 `;
 
 const DescriptionInput = styled.input`
-  padding: 20px 0px;
-  font-size: 30px;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 25px;
   width: 100%;
 `;
 

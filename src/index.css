@@ -22,8 +22,7 @@ input {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   border: none;
-  border-bottom: 2px solid;
-  background: rgb(243, 244, 245);
+  background: #ffffff;
 }
 
 input:focus {
